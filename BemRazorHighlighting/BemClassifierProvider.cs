@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
+using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Utilities;
 
 namespace BemRazorHighlighting
@@ -10,6 +11,7 @@ namespace BemRazorHighlighting
     /// </summary>
     [Export(typeof(IClassifierProvider))]
     [ContentType("text")] // This classifier applies to all text files.
+    [TextViewRole(PredefinedTextViewRoles.Document)]
     internal class BemClassifierProvider : IClassifierProvider
     {
         // Disable "Field is never assigned to..." compiler's warning. Justification: the field is assigned by MEF.
@@ -33,7 +35,16 @@ namespace BemRazorHighlighting
         /// <returns>A classifier for the text buffer, or null if the provider cannot do so in its current state.</returns>
         public IClassifier GetClassifier(ITextBuffer buffer)
         {
-            return buffer.Properties.GetOrCreateSingletonProperty(creator: () => new BemClassifier(this.classificationRegistry));
+            if (buffer.ContentType.TypeName == "RazorCSharp")
+            {
+                return buffer.Properties.GetOrCreateSingletonProperty(
+                    () => new BemClassifier(this.classificationRegistry)
+                );
+            }
+            else
+            {
+                return null;
+            }            
         }
 
         #endregion

@@ -49,7 +49,12 @@
   <ItemGroup>
     <Compile Include="BemClassifier.cs" />
     <Compile Include="BemClassifierClassificationDefinition.cs" />
-    <Compile Include="BemClassifierBlockFormat.cs" />
+    <Compile Include="BemClassifierFormats\BemFormat.cs" />
+    <Compile Include="BemClassifierFormats\QaFormat.cs" />
+    <Compile Include="BemClassifierFormats\JsFormat.cs" />
+    <Compile Include="BemClassifierFormats\ModifierFormat.cs" />
+    <Compile Include="BemClassifierFormats\ElementFormat.cs" />
+    <Compile Include="BemClassifierFormats\BlockFormat.cs" />
     <Compile Include="BemClassifierProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BemHighlightAdornment.cs" />
