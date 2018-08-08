@@ -13,17 +13,14 @@ namespace BemRazorHighlighting.BemClassifierFormats
     [ClassificationType(ClassificationTypeNames = BemClassifier.BEM_QA_CLASSIFICATION)]
     [Name(BemClassifier.BEM_QA_CLASSIFICATION)]
     [UserVisible(true)] // This should be visible to the end user
-    [Order(Before = Priority.Default)] // Set the priority to be after the default classifiers
-    internal sealed class QaFormat : ClassificationFormatDefinition
+    internal sealed class QaFormat : BemFormat
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BemClassifierBlockFormat"/> class.
         /// </summary>
         public QaFormat()
+            : base("QA", Colors.Orange)
         {
-            this.DisplayName = "BEMIT - QA Class"; // Human readable version of the name
-            this.BackgroundColor = Colors.Orange;
-            this.BackgroundOpacity = 0.5;
         }
     }
 }

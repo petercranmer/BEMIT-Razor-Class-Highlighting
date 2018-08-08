@@ -14,16 +14,14 @@ namespace BemRazorHighlighting.BemClassifierFormats
     [Name(BemClassifier.BEM_MODIFIER_CLASSIFICATION)]
     [UserVisible(true)] // This should be visible to the end user
     [Order(Before = Priority.Default)] // Set the priority to be after the default classifiers
-    internal sealed class ModifierFormat : ClassificationFormatDefinition
+    internal sealed class ModifierFormat : BemFormat
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BemClassifierBlockFormat"/> class.
         /// </summary>
         public ModifierFormat()
+            : base ("Modifier", Colors.Blue)
         {
-            this.DisplayName = BemClassifier.BEM_MODIFIER_CLASSIFICATION; // Human readable version of the name
-            this.BackgroundColor = Colors.Blue;
-            this.BackgroundOpacity = 0.5;
         }
     }
 }

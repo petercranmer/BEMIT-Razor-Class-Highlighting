@@ -13,17 +13,14 @@ namespace BemRazorHighlighting.BemClassifierFormats
     [ClassificationType(ClassificationTypeNames = BemClassifier.BEM_ELEMENT_CLASSIFICATION)]
     [Name(BemClassifier.BEM_ELEMENT_CLASSIFICATION)]
     [UserVisible(true)] // This should be visible to the end user
-    [Order(Before = Priority.Default)] // Set the priority to be after the default classifiers
-    internal sealed class ElementFormat : ClassificationFormatDefinition
+    internal sealed class ElementFormat : BemFormat
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BemClassifierBlockFormat"/> class.
         /// </summary>
         public ElementFormat()
+            : base("Element", Colors.Yellow)
         {
-            this.DisplayName = BemClassifier.BEM_ELEMENT_CLASSIFICATION; // Human readable version of the name
-            this.BackgroundColor = Colors.Yellow;
-            this.BackgroundOpacity = 0.5;
         }
     }
 }

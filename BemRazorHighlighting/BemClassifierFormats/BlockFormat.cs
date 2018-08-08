@@ -12,18 +12,15 @@ namespace BemRazorHighlighting.BemClassifierFormats
     [Export(typeof(EditorFormatDefinition))]
     [ClassificationType(ClassificationTypeNames = BemClassifier.BEM_BLOCK_CLASSIFICATION)]
     [Name(BemClassifier.BEM_BLOCK_CLASSIFICATION)]
-    [UserVisible(true)] // This should be visible to the end user
-    [Order(Before = Priority.Default)] // Set the priority to be after the default classifiers
-    internal sealed class BlockFormat : ClassificationFormatDefinition
+    [UserVisible(true)]
+    internal sealed class BlockFormat : BemFormat
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BlockFormat"/> class.
         /// </summary>
         public BlockFormat()
+            : base("Block", Colors.Red)
         {
-            this.DisplayName = BemClassifier.BEM_BLOCK_CLASSIFICATION; // Human readable version of the name
-            this.BackgroundColor = Colors.Red;
-            this.BackgroundOpacity = 0.5;
         }
     }
 }

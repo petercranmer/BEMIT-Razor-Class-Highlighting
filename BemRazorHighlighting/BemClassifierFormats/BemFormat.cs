@@ -14,7 +14,7 @@ namespace BemRazorHighlighting.BemClassifierFormats
         {
             this.DisplayName = "BEMIT Class: " + displayName;
             this.BackgroundColor = color;
-            this.BackgroundOpacity = 0.5;
+            this.BackgroundOpacity = 0.2;
         }
     }
 }
