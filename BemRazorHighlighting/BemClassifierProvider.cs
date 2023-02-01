@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using System.Linq;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Text.Editor;
@@ -35,7 +36,13 @@ namespace BemRazorHighlighting
         /// <returns>A classifier for the text buffer, or null if the provider cannot do so in its current state.</returns>
         public IClassifier GetClassifier(ITextBuffer buffer)
         {
-            if (buffer.ContentType.TypeName == "RazorCSharp")
+            var supportedContentTypeNames = new[]
+            {
+                "RazorCSharp",
+                "LegacyRazorCSharp"
+            };
+
+            if (supportedContentTypeNames.Contains("LegacyRazorCSharp"))
             {
                 return buffer.Properties.GetOrCreateSingletonProperty(
                     () => new BemClassifier(this.classificationRegistry)
