@@ -11,8 +11,7 @@ namespace BemRazorHighlighting
     /// </summary>
     internal class BemClassifier : IClassifier
     {
-        private const string CLASS_INSTANCE_REGEX = @"[A-z_-]+";
-        private const string CLASS_DEFINITION_REGEX = @"class\s?=\s?""(?>" + CLASS_INSTANCE_REGEX + @"\s?)*""";
+        private const string CLASS_DEFINITION_REGEX = @"class\s?=\s?""([\w\.@"" ()-]+)""(?:\s|>|\/>)";
 
         public const string BEM_BLOCK_CLASSIFICATION = nameof(BemClassifier) + "_" + nameof(blockClassificationType);
         public const string BEM_ELEMENT_CLASSIFICATION = nameof(BemClassifier) + nameof(elementClassificationType);
@@ -79,26 +78,28 @@ namespace BemRazorHighlighting
             {
                 int startOfClassDeclaration = classDefinitionMatch.Index;
 
-                var classInstancesMatches = Regex.Matches(classDefinitionMatch.Value, CLASS_INSTANCE_REGEX);
+                var classAttributeContents = classDefinitionMatch.Groups[1].Value;
 
-                foreach (Match classInstanceMatch in classInstancesMatches)
+                var classList = classAttributeContents.Split(' ');
+
+                foreach(var classItem in classList)
                 {
-                    var classInstance = classInstanceMatch.Value;
-
-                    if (classInstance == "class")
+                    if (classItem.StartsWith("@"))
                     {
+                        // Skip any razor @ declarations
                         continue;
                     }
 
-                    int startOfInstanceRelativeToDefinition = classInstanceMatch.Index;
+                    var startOfInstanceRelativeToDefinition = classDefinitionMatch.Value.IndexOf(classItem);
 
-                    int startOfClassInstance = startOfClassDeclaration + startOfInstanceRelativeToDefinition;
+                    var startOfClassInstance = startOfClassDeclaration + startOfInstanceRelativeToDefinition;
 
-                    var textBounds = Span.FromBounds(startOfClassInstance, startOfClassInstance + classInstance.Length);
+                    var classificationType = this.GetClassificationForClassName(classItem);
 
-                    var classificationType = this.GetClassificationForClassName(classInstance);
-
-                    var classSnapShot = new SnapshotSpan(span.Snapshot, new Span(startOfClassInstance, classInstance.Length));
+                    var classSnapShot = new SnapshotSpan(
+                        span.Snapshot, 
+                        new Span(startOfClassInstance, classItem.Length)
+                    );
 
                     results.Add(
                         new ClassificationSpan(classSnapShot, classificationType)
@@ -107,13 +108,6 @@ namespace BemRazorHighlighting
             }
 
             return results;
-
-            //var result = new List<ClassificationSpan>()
-            //{
-            //    new ClassificationSpan(new SnapshotSpan(span.Snapshot, new Span(span.Start, span.Length)), this.blockClassificationType)
-            //};
-
-            //return result;
         }
 
 
